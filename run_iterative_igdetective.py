@@ -94,6 +94,13 @@ def RunIgDetective(igcontig_dir, output_dir, locus = 'IGH'):
     print('Running: ' + command_line)
     os.system(command_line)
 
+def CreateBedOutputs(output_dir):
+    igdetective_dir = os.path.join(output_dir, 'predicted_genes')
+    output_bed = os.path.join(igdetective_dir, 'predicted_genes.bed')
+    command_line = 'python py/create_bed_output.py ' + igdetective_dir + ' ' + output_bed
+    print('Running: ' + command_line)
+    os.system(command_line)
+
 def main(genome_fasta, output_dir):
     #### preparation
     CheckPythonVersionFatal()
@@ -109,6 +116,8 @@ def main(genome_fasta, output_dir):
     #### running IgDetective
     RunIgDetective(igcontig_dir, output_dir)
 
+    #### creating final output in BED format 
+    CreateBedOutputs(output_dir)
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
